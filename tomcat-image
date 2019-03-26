@@ -1,0 +1,21 @@
+FROM centos
+MAINTAINER tanyp
+ENV REFRESHED_AT 2019-03-21
+
+WORKDIR /usr
+
+RUN mkdir jdk
+
+RUN mkdir tomcat
+
+ADD jdk1.8.0_201 /usr/jdk/
+ADD apache-tomcat-8.5.39 /usr/tomcat/
+
+ENV JAVA_HOME=/usr/jdk
+ENV JRE_HOME=$JAVA_HOME/jre
+ENV CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar:$JRE_HOME/lib:$CLASSPATH
+ENV PATH=/sbin:$JAVA_HOME/bin:$PATH
+
+EXPOSE 8081
+
+ENTRYPOINT ["/usr/tomcat/bin/catalina.sh","run"]
